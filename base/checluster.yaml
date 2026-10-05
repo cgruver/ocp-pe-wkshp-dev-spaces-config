@@ -1,0 +1,48 @@
+apiVersion: org.eclipse.che/v2 
+kind: CheCluster   
+metadata:              
+  name: devspaces  
+  namespace: openshift-devspaces
+spec:                         
+  components:                  
+    cheServer:      
+      debug: false
+      logLevel: INFO
+      extraProperties:
+        CHE_OIDC_USERNAME__CLAIM: email
+        CHE_FORCE_REFRESH_PERSONAL_ACCESS_TOKEN: "true"
+    metrics:                
+      enable: true
+    pluginRegistry:
+      openVSXURL: https://open-vsx-server-openshift-devspaces.{{ cluster_subdomain }}
+    devfileRegistry:
+      disableInternalRegistry: true   
+  containerRegistry: {}   
+  devEnvironments:       
+    startTimeoutSeconds: 300
+    secondsOfRunBeforeIdling: -1
+    secondsOfInactivityBeforeIdling: 1800
+    maxNumberOfWorkspacesPerUser: -1
+    maxNumberOfRunningWorkspacesPerUser: 5
+    disableContainerBuildCapabilities: false
+    disableContainerRunCapabilities: false
+    defaultComponents:
+    - name: dev-tools
+      container:
+        image: quay.io/cgruver0/che/dev-tools:latest
+        memoryLimit: 6Gi
+        mountSources: true
+    defaultEditor: che-incubator/che-code/latest
+    defaultNamespace:
+      autoProvision: true
+      template: <username>-devspaces
+    storage:
+      pvcStrategy: per-workspace
+    persistUserHome:
+      enabled: false
+  networking:
+    auth:
+      gateway:
+        configLabels:
+          app: che
+          component: che-gateway-config
