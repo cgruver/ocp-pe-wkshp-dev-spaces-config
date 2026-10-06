@@ -1,0 +1,76 @@
+
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: kilocode-config
+  namespace: openshift-devspaces
+  annotations:
+    controller.devfile.io/mount-as: subpath
+    controller.devfile.io/mount-path: /globalconfig
+  labels:
+    app.kubernetes.io/part-of: che.eclipse.org
+    app.kubernetes.io/component: workspaces-config
+data:
+  kilo.jsonc: |-
+    {
+      "$schema": "https://app.kilo.ai/config.json",
+      "permission": {
+        "bash": "allow",
+        "external_directory": {
+          "*": "ask",
+          "/projects/*": "allow"
+        }
+      },
+      "auto_collapse_reasoning": false,
+      "terminal_command_display": "expanded","code_edit_display": "collapsed",
+      "mcp_tool_display": "collapsed",
+      "enabled_providers": [
+        "lite-maas"
+      ],
+      "provider": {
+        "lite-maas": {
+          "name": "lite-maas",
+          "npm": "@ai-sdk/openai-compatible",
+          "options": {
+            "baseURL": "_LLM_BASE_URL_",
+            "apiKey": "_LLM_API_KEY_"
+          },
+          "models": {
+            "qwen3-235b}": {
+              "name": "qwen3-235b}",
+              "limit": {
+                "context": 262144,
+                "output": 262144
+              },
+              "reasoning": true
+            }
+          }
+        }
+      },
+      "model": "lite-maas/qwen3-235b}",
+      "agent": {
+        "plan": {
+          "options": {},
+          "permission": {}
+        },
+        "debug": {
+          "options": {},
+          "permission": {}
+        },
+        "orchestrator": {
+          "options": {},
+          "permission": {}
+        },
+        "ask": {
+          "options": {},
+          "permission": {}
+        },
+        "code": {
+          "options": {},
+          "permission": {}
+        }
+      },
+      "auto_collapse_reasoning": false,
+      "terminal_command_display": "expanded",
+      "code_edit_display": "expanded"
+    }
