@@ -18,3 +18,16 @@ objects:
       requests.cpu: '1'
       requests.memory: 8Gi
       requests.storage: 200Gi
+- apiVersion: v1
+  kind: LimitRange
+  metadata:
+    name: devspaces-user-resource-limit-range
+  spec:
+    limits:
+      - type: Container
+        default:
+          cpu: '1'
+          memory: 4Gi
+        defaultRequest:
+          cpu: 100m
+          memory: 512Mi
