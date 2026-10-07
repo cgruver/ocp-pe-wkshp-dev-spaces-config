@@ -4,17 +4,18 @@ metadata:
   name: devspaces  
   namespace: openshift-devspaces
 spec:
-  containerResourceCaps:
-    limits:
-      cpu: "4"
-      memory: "16Gi"
-    requests:
-      cpu: "200m"
-      memory: "4Gi"
-  defaultContainerResources:
-    limits:
-      cpu: "1"
-      memory: "4Gi"
-    requests:
-      cpu: "100m"
-      memory: "1Gi"
+  devEnvironments:
+    containerResourceCaps:
+      limits:
+        cpu: "4"
+        memory: "16Gi"
+      requests:
+        cpu: "200m"
+        memory: "4Gi"
+    defaultContainerResources:
+      limits:
+        cpu: "1"
+        memory: "4Gi"
+      requests:
+        cpu: "100m"
+        memory: "1Gi"
