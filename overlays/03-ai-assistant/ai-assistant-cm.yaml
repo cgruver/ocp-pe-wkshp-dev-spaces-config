@@ -21,6 +21,7 @@ data:
           "/projects/*": "allow"
         }
       },
+      "defaultAgent": "ask",
       "auto_collapse_reasoning": false,
       "terminal_command_display": "expanded","code_edit_display": "collapsed",
       "mcp_tool_display": "collapsed",
@@ -36,8 +37,8 @@ data:
             "apiKey": "_LLM_API_KEY_"
           },
           "models": {
-            "qwen3-235b}": {
-              "name": "qwen3-235b}",
+            "qwen3-235b": {
+              "name": "qwen3-235b",
               "limit": {
                 "context": 262144,
                 "output": 262144
@@ -47,7 +48,7 @@ data:
           }
         }
       },
-      "model": "lite-maas/qwen3-235b}",
+      "model": "lite-maas/qwen3-235b",
       "agent": {
         "plan": {
           "options": {},
