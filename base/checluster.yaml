@@ -14,7 +14,7 @@ spec:
     metrics:                
       enable: true
     pluginRegistry:
-      openVSXURL: https://open-vsx-server-openshift-devspaces.{{ cluster_subdomain }}
+      openVSXURL: https://open-vsx-server-che-openvsx.{{ cluster_subdomain }}
     devfileRegistry:
       disableInternalRegistry: true   
   containerRegistry: {}   

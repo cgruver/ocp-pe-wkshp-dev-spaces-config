@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ../../base
   - quotas.yaml
+  - workspace-pruner.yaml
 
 patches:
   - path: patches/checluster.yaml
