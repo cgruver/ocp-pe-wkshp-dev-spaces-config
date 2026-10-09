@@ -1,10 +1,13 @@
-apiVersion: org.eclipse.che/v2 
-kind: CheCluster   
+apiVersion: org.eclipse.che/v2
+# The CheCluster custom resource definition is part of the OpenShift Dev Spaces operator.
+# It is used to define the cluster wide configuration for OpenShift Dev Spaces 
+kind: CheCluster
 metadata:              
   name: devspaces  
   namespace: openshift-devspaces
-spec:                         
-  components:                  
+spec:
+  # The components section of the CheCluster is where you can customize the configuration of the operating components of Dev Spaces                  
+  components:
     cheServer:      
       debug: false
       logLevel: INFO
@@ -13,11 +16,18 @@ spec:
         CHE_FORCE_REFRESH_PERSONAL_ACCESS_TOKEN: "true"
     metrics:                
       enable: true
+    # The pluginRegistry component determines access to VS Code extensions.  
+    # In this case extensions for developers are served from an OpenVSX instance that is hosted in this OpenShift cluster.  
+    # This enables enterprise control over what extensions are available for use.
     pluginRegistry:
       openVSXURL: https://open-vsx-server-che-openvsx.{{ cluster_subdomain }}
+    # The devfileRegistry component serves some generic workspace samples.  
+    # It is disabled in this cluster.
+    # Custom workspace samples can be configured via ConfigMaps as described in the Dev Spaces documentation
     devfileRegistry:
       disableInternalRegistry: true   
-  containerRegistry: {}   
+  containerRegistry: {}
+  # The devEnvironments section of the CheCluster resource is where workspace configuration is managed
   devEnvironments:       
     startTimeoutSeconds: 300
     secondsOfRunBeforeIdling: -1
@@ -26,18 +36,27 @@ spec:
     maxNumberOfRunningWorkspacesPerUser: 5
     disableContainerBuildCapabilities: false
     disableContainerRunCapabilities: false
+    # The defaultComponents section defines workspace parameters for workspaces that are created with a devfile.yaml
     defaultComponents:
     - name: dev-tools
       container:
         image: image-registry.openshift-image-registry.svc:5000/workspace-images/workspace-base:ubi10
         memoryLimit: 6Gi
+        memoryRequest: 2Gi
+        cpuLimit: 500m
+        cpuRequest: 100m
         mountSources: true
     defaultEditor: che-incubator/che-code/latest
     defaultNamespace:
       autoProvision: true
       template: <username>-devspaces
+    # A storage strategy of per-workspace rather than per-user yields a simpler and more efficient use of storage.
+    # The PVC backing a given workspace follows the lifecycle of the workspace.
     storage:
       pvcStrategy: per-workspace
+    # The persistUserHome section enables opinionated logic for linking tools and configuration into a workspace home directory that is persisted on a PVC.
+    # We are disabling that logic in our configuration in favor of a simpler approach that uses the project source directory as the user's home directory.
+    # Using this simpler approach, workspace startup is faster, and persistence of the user's home directory in the workspace is aligned with the persistence strategy of the workspace itself.
     persistUserHome:
       enabled: false
   networking:
